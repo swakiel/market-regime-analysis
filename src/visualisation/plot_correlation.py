@@ -3,6 +3,10 @@ import matplotlib.pyplot as plt
 from constants import BASE, VOL_WINDOWS
 from paths import ANALYSIS_DIR, FIGURE_DIR
 
+CRISIS_DATES = {
+    "2008 Crisis": "2008-09-15",
+    "COVID Crash": "2020-03-16",
+}
 
 def plot_correlation(windows=VOL_WINDOWS, base=BASE):
 
@@ -20,6 +24,9 @@ def plot_correlation(windows=VOL_WINDOWS, base=BASE):
                 plt.plot(df[col], label=col.replace("corr_", "").upper())
 
         plt.axhline(0, linewidth=1)
+
+        for label, date in CRISIS_DATES.items():
+            plt.axvline(pd.to_datetime(date), linestyle="--")
 
         plt.title(f"Rolling {window}-Day Correlations with {base.upper()}")
         plt.xlabel("Date")

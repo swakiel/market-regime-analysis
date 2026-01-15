@@ -4,6 +4,12 @@ from constants import SYMBOLS, VOL_WINDOWS
 from paths import PROCESSED_DATA_DIR, FIGURE_DIR
 
 
+CRISIS_DATES = {
+    "2008 Crisis": "2008-09-15",
+    "COVID Crash": "2020-03-16",
+}
+
+
 def plot_volatility(symbols=SYMBOLS, vol_windows=VOL_WINDOWS):
     for symbol in symbols:
         df = pd.read_csv(
@@ -15,7 +21,9 @@ def plot_volatility(symbols=SYMBOLS, vol_windows=VOL_WINDOWS):
         plt.figure(figsize=(12, 6))
         for window in vol_windows:
             plt.plot(df.index, df[f"vol_{window}"], label=f"{window}-day volatility")
-            #plt.plot(df.index, df["vol_60"], label="60-day volatility")
+
+        for label, date in CRISIS_DATES.items():
+            plt.axvline(pd.to_datetime(date), linestyle="--")
 
         plt.title(f"{symbol} Rolling Volatility")
         plt.xlabel("Date")

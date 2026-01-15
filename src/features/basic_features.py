@@ -4,7 +4,8 @@ from constants import SYMBOLS, VOL_WINDOWS
 from paths import PROCESSED_DATA_DIR, RAW_DATA_DIR
 
 
-def add_features(data, vol_window=VOL_WINDOWS):
+# volatility and log returns
+def add_basic_features(data, vol_window=VOL_WINDOWS):
     data = data.copy()
 
     # day on day return
@@ -18,12 +19,12 @@ def add_features(data, vol_window=VOL_WINDOWS):
     data.dropna()
 
     print(data.head())
-    data.to_csv(f"{PROCESSED_DATA_DIR}/{symbol}_data_with_features.csv")
+    data.to_csv(f"{PROCESSED_DATA_DIR}/{symbol}_data_with_basic_features.csv")
     print(f"Data saved to {PROCESSED_DATA_DIR}/{symbol}_data.csv")
 
 
 if __name__ == "__main__":
     for symbol in SYMBOLS:
         df = pd.read_csv(f"{RAW_DATA_DIR}/{symbol}_data_raw.csv")
-        add_features(df)
+        add_basic_features(df)
 
