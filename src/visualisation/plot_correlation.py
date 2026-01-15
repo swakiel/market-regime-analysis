@@ -1,12 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from constants import BASE, VOL_WINDOWS
+from constants import BASE, VOL_WINDOWS, CRISIS_DATES
 from paths import ANALYSIS_DIR, FIGURE_DIR
 
-CRISIS_DATES = {
-    "2008 Crisis": "2008-09-15",
-    "COVID Crash": "2020-03-16",
-}
 
 def plot_correlation(windows=VOL_WINDOWS, base=BASE):
 
