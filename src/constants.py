@@ -1,3 +1,4 @@
 SYMBOLS = ["SPY", "TLT", "GLD"]
 EQUITY = "SPY"
 VOL_WINDOWS = [20, 60]
+BASE = "SPY"

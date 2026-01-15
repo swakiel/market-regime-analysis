@@ -1,9 +1,10 @@
 import yfinance as yf
 import pandas as pd
 from constants import SYMBOLS
+from paths import RAW_DATA_DIR
 
 
-def fetch_stock_data(ticker_symbol, start_date, end_date):
+def fetch_stock_data(ticker_symbol, start_date="2005-01-01", end_date="2025-12-31"):
     """
     Fetch historical stock data from Yahoo Finance.
 
@@ -28,7 +29,9 @@ def fetch_stock_data(ticker_symbol, start_date, end_date):
             print(f"No data found for {ticker_symbol} in the given date range.")
             return None
 
-        return data
+        print(data.head())
+        data.to_csv(f"{RAW_DATA_DIR}/{symbol}_data_raw.csv")
+        print(f"Data saved to {RAW_DATA_DIR}/{symbol}_data_raw.csv")
 
     except Exception as e:
         print(f"Error fetching data: {e}")
@@ -36,13 +39,8 @@ def fetch_stock_data(ticker_symbol, start_date, end_date):
 
 
 if __name__ == "__main__":
-    start = "2004-01-01"
+    start = "2005-01-01"
     end = "2025-12-31"
 
     for symbol in SYMBOLS:
-        stock_data = fetch_stock_data(symbol, start, end)
-
-        if stock_data is not None:
-            print(stock_data.head())
-            stock_data.to_csv(f"{symbol}_data_raw.csv")
-            print(f"Data saved to {symbol}_data_raw.csv")
+        fetch_stock_data(symbol, start, end)
