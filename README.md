@@ -6,4 +6,9 @@ The goal of this project is to identify latent market regimes using unsupervised
 
 ## Feature Engineering
 
-“I experimented with normalised returns (return/volatility), but found the signal too noisy at daily frequency to contribute meaningfully to regime separation, so I excluded it.”
+I experimented with normalised returns (return/volatility), but found the signal too noisy at daily frequency to contribute meaningfully to regime separation, so I excluded it.
+
+
+I compared KMeans and GMM for regime detection.
+Both identified a dominant low-volatility growth regime and a short-lived high-volatility stress regime.
+However, GMM produced more stable regime assignments and better-separated crisis periods, motivating a transition to HMM.
