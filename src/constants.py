@@ -12,3 +12,9 @@ REGIME_LABELS = {
     "mid_vol": "Transition",
     "high_vol": "Stress / Crisis",
 }
+
+REGIME_COLOURS = {
+        "Calm / Growth": "green",
+        "Transition": "gold",
+        "Stress / Crisis": "red",
+}
