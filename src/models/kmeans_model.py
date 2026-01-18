@@ -1,14 +1,15 @@
 from sklearn.cluster import KMeans
-from models.base import RegimeModel
 
 
-class KMeansRegimeModel(RegimeModel):
-    def fit(self, X):
+class KMeansRegimeModel:
+    def __init__(self, n_regimes=3, random_state=42):
         self.model = KMeans(
-            n_clusters=self.n_regimes,
-            random_state=self.random_state,
-            n_init=20,
+            n_clusters=n_regimes,
+            random_state=random_state,
+            n_init=20
         )
+
+    def fit(self, X):
         self.model.fit(X)
         return self
 

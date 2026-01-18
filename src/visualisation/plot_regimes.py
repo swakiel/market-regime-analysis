@@ -48,3 +48,4 @@ def plot_price_with_labeled_regimes(model_col, n_regimes=3):
 if __name__ == "__main__":
     plot_price_with_labeled_regimes("regime_kmeans")
     plot_price_with_labeled_regimes("regime_gmm")
+    plot_price_with_labeled_regimes("regime_hmm")

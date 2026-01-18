@@ -82,9 +82,13 @@ def compute_regime_stats(model_col):
 if __name__ == "__main__":
     kmeans_stats = compute_regime_stats("regime_kmeans")
     gmm_stats = compute_regime_stats("regime_gmm")
+    hmm_stats = compute_regime_stats("regime_hmm")
 
     print("\nKMeans Regime Stats\n")
     print(kmeans_stats.round(4))
 
     print("\nGMM Regime Stats\n")
     print(gmm_stats.round(4))
+
+    print("\nHMM Regime Stats\n")
+    print(hmm_stats.round(4))

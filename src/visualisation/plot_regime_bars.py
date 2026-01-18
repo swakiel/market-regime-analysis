@@ -28,3 +28,4 @@ def plot_regime_bars(model_col):
 if __name__ == "__main__":
     plot_regime_bars("regime_kmeans")
     plot_regime_bars("regime_gmm")
+    plot_regime_bars("regime_hmm")

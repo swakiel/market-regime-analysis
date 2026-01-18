@@ -6,5 +6,3 @@ DATA_DIR = PROJECT_ROOT / "data"
 RAW_DATA_DIR = DATA_DIR / "raw"
 PROCESSED_DATA_DIR = DATA_DIR / "processed"
 FIGURE_DIR = PROJECT_ROOT / "figures"
-
-print(RAW_DATA_DIR)
