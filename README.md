@@ -1,37 +1,147 @@
-# Project Statement
+# Market Regime Detection with Unsupervised Learning
 
-Financial markets exhibit distinct regimes characterised by differences in volatility, correlation structure, and return dynamics. Strategies that perform well in one regime often fail catastrophically in others.
+## Overview
 
-The goal of this project is to identify latent market regimes using unsupervised learning on financial time series, and to evaluate the robustness of simple trading strategies across regimes, with an emphasis on interpretability, leakage-free backtesting, and risk-aware evaluation.
+Financial markets operate under distinct **regimes** characterised by different volatility, correlation, and return dynamics.  
+Strategies that perform well in one regime can fail catastrophically in another.
 
-## Feature Engineering
+This project builds an **end-to-end market regime detection pipeline** using unsupervised and probabilistic models, with a strong emphasis on:
 
-I experimented with normalised returns (return/volatility), but found the signal too noisy at daily frequency to contribute meaningfully to regime separation, so I excluded it.
+- Interpretability over raw performance  
+- Leakage-free feature engineering and evaluation  
+- Realistic conclusions about trading applicability  
 
+The project is designed as a **flagship portfolio piece** demonstrating applied machine learning, time-series reasoning, and critical model evaluation.
 
-I compared KMeans and GMM for regime detection.
-Both identified a dominant low-volatility growth regime and a short-lived high-volatility stress regime.
-However, GMM produced more stable regime assignments and better-separated crisis periods, motivating a transition to HMM.
+---
 
+## Project Objectives
 
-When implementing HMMs I found that full covariance estimation was unstable for financial features, so I used diagonal covariance with standardised inputs, which is standard in practical regime modelling.
+1. Identify latent market regimes using unsupervised learning  
+2. Compare clustering and probabilistic regime models  
+3. Analyse regime statistics and temporal behaviour  
+4. Evaluate a simple regime-based trading strategy  
+5. Understand where regime models add value — and where they do not  
 
-Financial features are noisy and highly correlated.
-I initialise emission distributions with KMeans and impose persistent transitions to avoid degenerate solutions and ensure stable, interpretable regimes.
+---
 
-### Model Comparison Summary
+## Data & Features
 
-| Model  | Calm / Growth Sharpe | Stress Regime Drawdown | Avg Regime Length (days) | Regime Stability | Key Characteristics |
-|------|----------------------|------------------------|--------------------------|------------------|--------------------|
-| KMeans | ~0.08 | -0.67 | ~36 | Low | Hard clustering, no temporal structure |
-| GMM | ~0.14 | -0.55 | ~22 | Medium | Soft clustering, probabilistic but static |
-| HMM | ~0.10 | -0.55 | ~88 | High | Temporal dependence, persistent regimes |
+**Asset:** SPY (US Equity Market Proxy)  
+**Frequency:** Daily  
 
+### Engineered Features
+- Log returns  
+- Rolling volatility (20d, 60d)  
+- Distance from 50-day moving average  
+- Rolling correlations:
+  - SPY–TLT (60d)
+  - SPY–GLD (60d)
 
-### Interpretation
+> **Note:** Normalised return/volatility ratio features were tested and excluded due to excessive noise at daily frequency.
 
-KMeans identifies broad market conditions but exhibits frequent regime switching due to the absence of temporal structure. While it separates high-volatility periods effectively, the resulting regimes are short-lived and noisy, limiting practical usefulness.
+All features are standardised using **expanding z-scores** to avoid look-ahead bias.
 
-GMM improves upon KMeans by modelling uncertainty through soft assignments, leading to more coherent regime separation. However, without explicit temporal dependence, regime persistence remains limited and transitions are still relatively frequent.
+---
 
-The Hidden Markov Model produces the most realistic regime structure. Regimes are persistent, transitions are infrequent, and crisis periods are captured as prolonged states rather than isolated spikes. Although Sharpe ratios are comparable to GMM, the HMM provides superior interpretability and stability, making it the most suitable model for market regime analysis and downstream decision-making.
+## Models Implemented
+
+### 1. KMeans
+- Hard clustering
+- No temporal structure
+- Fast and highly reactive
+
+### 2. Gaussian Mixture Model (GMM)
+- Soft probabilistic clustering
+- Captures uncertainty
+- Static regime assignments
+
+### 3. Hidden Markov Model (HMM)
+- Time-dependent regime transitions
+- Persistent regimes
+- Gaussian emissions with diagonal covariance
+
+HMM emission parameters are initialised using KMeans for stability, and transition matrices are constrained to encourage regime persistence.
+
+---
+
+## Regime Interpretation
+
+Across all models, three economically intuitive regimes emerge:
+
+- **Calm / Growth** — low volatility, positive returns  
+- **Transition** — moderate volatility and returns  
+- **Stress / Crisis** — elevated volatility and drawdowns  
+
+Regimes are labelled post hoc using statistical characteristics (volatility, drawdown, Sharpe).
+
+---
+
+## Model Comparison Summary
+
+| Model  | Calm Sharpe | Crisis Drawdown | Avg Regime Length (days) | Stability | Key Characteristics |
+|------|-------------|-----------------|--------------------------|----------|---------------------|
+| KMeans | ~0.08 | ~-0.67 | ~36 | Low | Hard clustering, highly reactive |
+| GMM | ~0.14 | ~-0.55 | ~22 | Medium | Soft clustering, probabilistic |
+| HMM | ~0.10 | ~-0.55 | ~88 | High | Persistent, interpretable regimes |
+
+> *Exact statistics available in:* `src/analysis/regime_stats.py`
+
+---
+
+## Strategy Evaluation
+
+A simple regime-based strategy was tested:
+
+- **Long** during *Calm / Growth*
+- **Short** during *Stress / Crisis*
+- **Hold** during *Transition*
+
+Performance was compared against buy-and-hold using an initial capital approach.
+
+### Results Summary
+- No regime strategy outperforms buy-and-hold over the full period
+- KMeans provides the strongest drawdown protection
+- HMM produces stable but slow-moving signals
+- Regime strategies function better as **risk overlays** than alpha generators
+
+---
+
+## Key Insights
+
+- Simpler models (KMeans) can be surprisingly effective
+- Probabilistic models improve interpretability more than performance
+- Temporal structure improves regime realism but reduces responsiveness
+- Regime detection is better suited to **risk management and context** than pure trading
+
+---
+
+## Limitations
+
+- No transaction costs or slippage
+- Single-market focus (SPY only)
+- Fixed number of regimes
+- No walk-forward retraining
+- No macroeconomic features
+
+---
+
+## Future Work
+
+- Dynamic regime counts via information criteria
+- Macro and cross-asset feature expansion
+- Volatility-targeted or allocation-based strategies
+- Walk-forward regime estimation
+- Multi-asset regime comparison
+
+---
+
+## Portfolio Takeaway
+
+This project demonstrates the ability to:
+
+- Design a clean, modular ML research pipeline  
+- Apply unsupervised learning to noisy financial data  
+- Make disciplined, realistic conclusions about model performance  
+
+Rather than optimising for backtest returns, the focus is on **robust reasoning, interpretability, and practical understanding** — skills critical for ML engineering, data science, and quantitative roles.

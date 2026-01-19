@@ -19,7 +19,7 @@ def run_model(model_name, df=None, n_regimes=3):
     model.fit(X)
 
     df[f"regime_{model_name}"] = model.predict(X)
-    print(df[f"regime_{model_name}"].value_counts(normalize=True))
+    #print(df[f"regime_{model_name}"].value_counts(normalize=True))
     return df, model
 
 
@@ -46,8 +46,8 @@ def run_all_models(n_regimes=3):
 
     return df
 
-
-data = run_all_models(n_regimes=3)
-run_model("kmeans")
-run_model("gmm")
-run_model("hmm")
+if __name__ == "__main__":
+    data = run_all_models(n_regimes=3)
+    run_model("kmeans")
+    run_model("gmm")
+    run_model("hmm")

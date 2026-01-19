@@ -34,16 +34,17 @@ def average_regime_duration(regime_series):
 
 
 
-def compute_regime_stats(model_col):
-    df = run_all_models(n_regimes=3)
+def compute_regime_stats(model_col, df=None):
+    if df is None:
+        df = run_all_models(n_regimes=3)
 
-    prices = pd.read_csv(
-        f"{PROCESSED_DATA_DIR}/{BASE}_data_with_trend_features.csv",
-        parse_dates=["Date"],
-        index_col="Date",
-    )
+        prices = pd.read_csv(
+            f"{PROCESSED_DATA_DIR}/{BASE}_data_with_trend_features.csv",
+            parse_dates=["Date"],
+            index_col="Date",
+        )
 
-    df = df.join(prices[["Close"]], how="inner")
+        df = df.join(prices[["Close"]], how="inner")
 
     # Daily returns from prices (not standardized)
     df["return"] = df["Close"].pct_change()
