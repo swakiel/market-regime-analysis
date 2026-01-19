@@ -39,9 +39,9 @@ def run_all_models(n_regimes=3):
             for i in range(n_regimes):
                 df[f"{model_name}_prob_{i}"] = probs[:, i]
 
-    print(df["regime_kmeans"].value_counts(normalize=True))
-    print(df["regime_gmm"].value_counts(normalize=True))
-    print(df["regime_hmm"].value_counts(normalize=True))
+    #print(df["regime_kmeans"].value_counts(normalize=True))
+    #print(df["regime_gmm"].value_counts(normalize=True))
+    #print(df["regime_hmm"].value_counts(normalize=True))
 
 
     return df
