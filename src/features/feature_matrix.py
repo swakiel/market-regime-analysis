@@ -1,5 +1,6 @@
 import pandas as pd
 from  paths import ANALYSIS_DIR, PROCESSED_DATA_DIR
+from constants import BASE
 
 
 FEATURE_COLUMNS = [
@@ -11,13 +12,13 @@ FEATURE_COLUMNS = [
 ]
 
 
-def load_feature_matrix():
+def load_feature_matrix(base=BASE):
     """
     Build aligned feature matrix used by all regime models
     """
 
     spy = pd.read_csv(
-        f"{PROCESSED_DATA_DIR}/SPY_NORMAL.csv",
+        f"{PROCESSED_DATA_DIR}/{base.upper()}_NORMAL.csv",
         parse_dates=["Date"],
         index_col="Date",
     )

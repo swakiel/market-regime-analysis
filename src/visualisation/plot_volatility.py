@@ -7,7 +7,7 @@ from paths import PROCESSED_DATA_DIR, FIGURE_DIR
 def plot_volatility(symbols=SYMBOLS, vol_windows=VOL_WINDOWS):
     for symbol in symbols:
         df = pd.read_csv(
-            f"{PROCESSED_DATA_DIR}/{symbol}_data_with_features.csv",
+            f"{PROCESSED_DATA_DIR}/{symbol}_data_with_trend_features.csv",
             parse_dates=["Date"],
             index_col="Date"
         )

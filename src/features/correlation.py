@@ -7,7 +7,7 @@ def correlations(symbols=SYMBOLS, windows=VOL_WINDOWS, base=BASE):
 
     for symbol in symbols:
         dfs[symbol] = pd.read_csv(
-            f"{PROCESSED_DATA_DIR}/{symbol}_data_with_features.csv",
+            f"{PROCESSED_DATA_DIR}/{symbol}_data_with_basic_features.csv",
             parse_dates=["Date"],
             index_col="Date"
         )
@@ -26,7 +26,6 @@ def correlations(symbols=SYMBOLS, windows=VOL_WINDOWS, base=BASE):
                 returns[base].rolling(window).corr(returns[symbol])
             )
 
-    print(returns.tail())
     returns.to_csv(f"{ANALYSIS_DIR}/correlations.csv")
 
 
